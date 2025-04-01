@@ -4,15 +4,27 @@ import { motion, useAnimation, useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+const Wrapper = styled.div`
+  background: #424242;
+  padding-top: 0px;
+  width:100vw;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  * {
+    border: 0px solid yellow;
+  }
+`;
+
 const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  width: 100%;
-  top: 0;
+  width: 900px;
+  top: 10;
   font-size: 14px;
-  padding: 20px 60px;
+  padding: 10px 0px;
   color: yellow;
 `;
 
@@ -45,14 +57,14 @@ const Item = styled.li`
 
   border: 5dpx solid white;
   margin-right: 20px;
-  color: ${(props) => props.theme.yellow.logo};
+  color: ${(props) => props.theme.black.logo};
   transition: color 0.3s ease-in-out;
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  font-size: 25px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 750;
   &:hover {
     color: ${(props) => props.theme.yellow.darklogo};
   }
@@ -93,24 +105,12 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.yellow.lighter};
 `;
 
-const logoVariants = {
-    normal: {
-        fillOpacity: 1,
-    },
-    active: {
-        fillOpacity: [0, 1, 0],
-        transition: {
-            repeat: Infinity,
-        },
-    },
-};
-
 const navVariants = {
     top: {
-        backgroundColor: "rgba(255, 253, 208,0)",
+        backgroundColor: "rgb(66, 66, 66,0)",
     },
     scroll: {
-        backgroundColor: "rgba(255, 253, 208,1)",
+        backgroundColor: "rgb(66, 66, 66,1)",
     },
 };
 
@@ -138,7 +138,7 @@ function Header() {
     };
     useEffect(() => {
         scrollY.onChange(() => {
-            if (scrollY.get() > 80) {
+            if (scrollY.get() > 120) {
                 navAnimation.start("scroll");
             } else {
                 navAnimation.start("top");
@@ -151,56 +151,57 @@ function Header() {
         history.push(`/search?keyword=${data.keyword}`);
     };
     return (
-        <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
-            <Col>
-                <Logo
-                    src="/showsccp_tt.png"
-                >
-                </Logo>
-                <Items>
-                    <Item>
-                        <Link to="/">
-                            POPULAR {homeMatch?.isExact && <Circle layoutId="circle" />}
-                        </Link>
-                    </Item>
-                    <Item>
-                        <Link to="/comingsoon">
-                            COMMING SOON {cgMatch && <Circle layoutId="circle" />}
-                        </Link>
-                    </Item>
-                    <Item>
-                        <Link to="/nowplaying">
-                            NOW PLAYING {npMatch && <Circle layoutId="circle" />}
-                        </Link>
-                    </Item>
-                </Items>
-            </Col>
-            <Col>
-                <Search onSubmit={handleSubmit(onValid)}>
-                    <motion.svg
-                        onClick={toggleSearch}
-                        animate={{ x: searchOpen ? -185 : 0 }}
-                        transition={{ type: "linear" }}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
+        <Wrapper>
+            <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
+                <Col>
+                    <Logo
+                        src="/showsccp_tt.png"
                     >
-                        <path
-                            fillRule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clipRule="evenodd"
-                        ></path>
-                    </motion.svg>
-                    <Input
-                        {...register("keyword", { required: true, minLength: 2 })}
-                        animate={inputAnimation}
-                        initial={{ scaleX: 0 }}
-                        transition={{ type: "linear" }}
-                        placeholder="Search for movie or tv show..."
-                    />
-                </Search>
-            </Col>
-        </Nav>
+                    </Logo>
+                    <Items>
+                        <Item>
+                            <Link to="/">
+                                POPULAR {homeMatch?.isExact && <Circle layoutId="circle" />}
+                            </Link>
+                        </Item>
+                        <Item>
+                            <Link to="/comingsoon">
+                                COMMING SOON {cgMatch && <Circle layoutId="circle" />}
+                            </Link>
+                        </Item>
+                        <Item>
+                            <Link to="/nowplaying">
+                                NOW PLAYING {npMatch && <Circle layoutId="circle" />}
+                            </Link>
+                        </Item>
+                    </Items>
+                </Col>
+                <Col>
+                    <Search onSubmit={handleSubmit(onValid)}>
+                        <motion.svg
+                            onClick={toggleSearch}
+                            animate={{ x: searchOpen ? -185 : 0 }}
+                            transition={{ type: "linear" }}
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clipRule="evenodd"
+                            ></path>
+                        </motion.svg>
+                        <Input
+                            {...register("keyword", { required: true, minLength: 2 })}
+                            animate={inputAnimation}
+                            initial={{ scaleX: 0 }}
+                            transition={{ type: "linear" }}
+                            placeholder="Search for movie or tv show..."
+                        />
+                    </Search>
+                </Col>
+            </Nav></Wrapper>
     );
 }
 

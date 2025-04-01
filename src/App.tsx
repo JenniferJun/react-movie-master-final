@@ -4,12 +4,16 @@ import Popular from "./Routes/Popular";
 import Search from "./Routes/Search";
 import Comingsoon from "./Routes/Comingsoon";
 import Nowplaying from "./Routes/Nowplaying";
+import BoxTest from "./Routes/BoxTest";
 
 function App() {
   return (
     <Router>
       <Header />
       <Switch>
+        <Route path="/test">
+          <BoxTest />
+        </Route>
         <Route path="/comingsoon">
           <Comingsoon />
         </Route>

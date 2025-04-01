@@ -9,6 +9,13 @@ declare module "styled-components" {
       logo: string;
       darklogo: string;
     };
+    white: {
+      veryDark: string;
+      darker: string;
+      lighter: string;
+      logo: string;
+      darklogo: string;
+    };
     yellow: {
       veryDark: string;
       darker: string;

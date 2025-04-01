@@ -15,44 +15,73 @@ const Wrapper = styled.div`
   align-items: top;
 `;
 
-const MoviesContain = styled.div`
+const MoviesContain = styled(motion.div)`
   width: auto; 
   height: auto;
   display: grid;
-  padding : 20px;
+  padding : 0px;
   gap: 20px;
-  grid-template-columns: repeat(3, 1fr); 
-  border: 2px solid red;
+  grid-template-columns: repeat(3, 1fr);  
 `;
+const moviesContainVar = {
+    start: {
+        scale: 0.5,
+    },
+    end: {
+        scale: 1,
+        transition: {
+            type: "tween",
+            duration: 0.5,
+            bounce: 0.5,
+            delayChildren: 0.5,
+            staggerChildren: 0.2,
+        },
+    },
+};
 
-const Movies = styled(motion.div) <{ bgPhoto: string }>` 
+const Movies = styled(motion.div)`
+ 
+`;
+const moviesVariants = {
+    start: {
+        opacity: 0,
+        y: 10,
+    },
+    end: {
+        opacity: 1,
+        y: 0,
+    },
+};
+
+const Movie = styled(motion.div) <{ bgPhoto: string }>` 
   background-color: white;
   background-size: cover;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
   url(${(props) => props.bgPhoto});
-
   background-position: center center;
   cursor: pointer;
   width:  250px;
   height: 380px; 
   margin: 10px;  
   border-radius: 10%;  
-  
   flex-direction: column;
   display : flex;
   justify-content: end;
 
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   font-size: 22px;
   color: white;
+  width:  250px;
   border: 0px solid white;
-  padding : 15px 10px;
+  padding : 0px 30px; 
+  position: relative;
+  top : -8px;
 
 `;
 
-const moviesVariants = {
+const movieVariants = {
     normal: {
         scale: 1,
     },
@@ -84,10 +113,9 @@ const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
-
 const BigMovie = styled(motion.div)`
   position: absolute;
-  width: 700px;
+  width: 500px;
   height: 700px;
   left: 0;
   right: 0;
@@ -99,14 +127,13 @@ const BigMovie = styled(motion.div)`
 
 const BigCover = styled.div`
   width: 100%;
+  height: 100%; 
   background-size: cover;
   background-position: center center;  
-  height: 400px; 
   align: right;
   display: flex;
   justify-content: end;
 `;
-
 
 const BigClose = styled.a`
     width: 40px;
@@ -121,13 +148,13 @@ const BigTitle = styled.h3`
   padding: 20px;
   font-size: 35px;
   position: relative;
-  top: -80px;
+  top: -420px;
 `;
 
 const BigOverview = styled.p`
   padding: 20px;
   position: relative;
-  top: -80px;
+  top: -420px;
   color: white;
 `;
 
@@ -135,11 +162,11 @@ const BigDetail = styled.p`
   padding: 0px 20px;
   margint:0px;
   position: relative;
-  top: -80px;
+  top: -420px;
   color: white;
   
   a {
-    color: yellow; 
+    text-decoration: underline;
   }
 `;
 
@@ -164,37 +191,39 @@ function Popular() {
         bigMovieMatch?.params.movieId &&
         data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId);
     useEffect(() => {
-        (async () => {
-            const infoData = await (
-                await fetch(`${BASE_PATH}/movie/${bigMovieMatch?.params.movieId}`, getOptions)
-            ).json();
-            setInfo(infoData);
-        })();
+        async function fetchMovieData() {
+            const response = await fetch(`${BASE_PATH}/movie/${bigMovieMatch?.params.movieId}`);
+            const movieData = await response.json();
+            setInfo(movieData);
+        }
 
+        if (bigMovieMatch?.params.movieId) {  // movieId가 존재하는 경우에만 데이터를 불러옵니다.
+            fetchMovieData();
+        }
     }, [bigMovieMatch?.params.movieId]);
-
-    console.log(selectedMovieInfo, scrollY.get());
 
     return (
         <Wrapper>
-            <MoviesContain>
+            <MoviesContain variants={moviesContainVar} initial="start" animate="end">
                 {isLoading ? (
                     <Loader>Loading...</Loader>
                 ) : (
                     <>
                         {data?.results
                             .map((movie) => (
-                                <Movies
-                                    key={movie.id}
-                                    bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                                    variants={moviesVariants}
-                                    layoutId={movie.id + ""}
-                                    whileHover="hover"
-                                    initial="normal"
-                                    transition={{ type: "tween" }}
-                                    onClick={() => onBoxClicked(movie.id)}
-                                >
-                                    <Title>{movie.title}</Title>
+                                <Movies variants={moviesVariants}>
+                                    <Movie
+                                        key={movie.id}
+                                        bgPhoto={makeImagePath(movie.poster_path, "w500")}
+                                        variants={movieVariants}
+                                        layoutId={movie.id + ""}
+                                        whileHover="hover"
+                                        initial="normal"
+                                        transition={{ type: "tween" }}
+                                        onClick={() => onBoxClicked(movie.id)}
+                                    >
+
+                                    </Movie><Title>{movie.title}</Title>
                                 </Movies>
                             ))}
                     </>
@@ -218,7 +247,7 @@ function Popular() {
                                     style={{
                                         backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
                                             clickedMovie.backdrop_path,
-                                            "w500"
+                                            "original"
                                         )})`,
                                     }}
                                 >
@@ -233,14 +262,12 @@ function Popular() {
                                 </BigCover>
                                 <BigTitle>{clickedMovie.title}</BigTitle>
                                 <BigOverview>{clickedMovie.overview}</BigOverview>
-                                <BigDetail>Genre : {selectedMovieInfo?.genres?.map(genre => genre.name).join(',')}</BigDetail>
-                                <BigDetail>Homepage :
-                                    {selectedMovieInfo?.homepage && (
-                                        <a href={selectedMovieInfo?.homepage} target="new">{selectedMovieInfo?.homepage}</a>
-                                    )}
-                                </BigDetail>
-                                <BigDetail>Buget : ${selectedMovieInfo?.budget} </BigDetail>
-                                <BigDetail>Revenue : ${selectedMovieInfo?.revenue} </BigDetail>
+                                {selectedMovieInfo?.homepage && (
+                                    <BigDetail><a href={selectedMovieInfo?.homepage} target="new">{selectedMovieInfo?.homepage}</a> </BigDetail>
+                                )}
+                                <BigDetail>Genre : {selectedMovieInfo?.genres?.map(genre => genre.name).join(', ')}</BigDetail>
+                                <BigDetail>Budget : {selectedMovieInfo?.budget ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(+selectedMovieInfo.budget) : 'Unknown'}</BigDetail>
+                                <BigDetail>Revenue : {selectedMovieInfo?.revenue ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(+selectedMovieInfo.revenue) : 'Unknown'}</BigDetail>
                                 <BigDetail>Runtime : {selectedMovieInfo?.runtime ? `${Math.floor(selectedMovieInfo.runtime / 60)}h ${selectedMovieInfo.runtime % 60}m` : '-'}</BigDetail>
                                 <BigDetail>Release date: {selectedMovieInfo?.release_date}   </BigDetail>                                <BigDetail>Rating: {selectedMovieInfo?.rating ? `${selectedMovieInfo?.rating}` : '-'}   </BigDetail>
 

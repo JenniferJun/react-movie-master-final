@@ -5,7 +5,14 @@ export const theme: DefaultTheme = {
     veryDark: "#141414",
     darker: "#181818",
     lighter: "#2F2F2F",
-    logo: "#F38B1A",
+    logo: "#ffffff",
+    darklogo: "#C55D35",
+  },
+  white: {
+    veryDark: "#141414",
+    darker: "#181818",
+    lighter: "#2F2F2F",
+    logo: "#ffffff",
     darklogo: "#C55D35",
   },
   yellow: {
