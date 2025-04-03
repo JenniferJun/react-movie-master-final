@@ -1,6 +1,5 @@
-const API_KEY = "8ea55c61ae706950c17649d211cd2732";
 export const BASE_PATH = "https://api.themoviedb.org/3";
-
+const API_KEY = "8ea55c61ae706950c17649d211cd2732";
 export interface IMovie {
   id: number;
   backdrop_path: string;
@@ -48,8 +47,8 @@ export const getOptions = {
 
 //https://api.themoviedb.org/3/movie/now_playing
 export function getNowPlaying() {
-  return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
-    (response) => response.json()
+  return fetch(`${BASE_PATH}/movie/now_playing`, getOptions).then((response) =>
+    response.json()
   );
 }
 
@@ -62,8 +61,8 @@ export function getPopular() {
 
 //https://api.themoviedb.org/3/movie/
 export function getCommingSoon() {
-  return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`).then(
-    (response) => response.json()
+  return fetch(`${BASE_PATH}/movie/upcoming`, getOptions).then((response) =>
+    response.json()
   );
 }
 
@@ -72,6 +71,13 @@ export function getMovieInfo(movie_id: string | undefined) {
   const a = fetch(`${BASE_PATH}/movie/${movie_id}`, getOptions).then(
     (response) => response.json()
   );
-  //console.log(a);
+  return a;
+}
+//https://api.themoviedb.org/3/movie/{movie_id}
+export function getSearchMovie(query: string | null) {
+  const a = fetch(
+    `${BASE_PATH}/search/movie?api_key=${API_KEY}&query=${query}`,
+    getOptions
+  ).then((response) => response.json());
   return a;
 }

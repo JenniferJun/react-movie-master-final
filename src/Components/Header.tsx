@@ -4,8 +4,7 @@ import { motion, useAnimation, useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const Wrapper = styled.div`
-  background: #424242;
+const Wrapper = styled.div` 
   padding-top: 0px;
   width:100vw;
   display: flex;
@@ -37,8 +36,7 @@ const Col = styled.div`
 const Logo = styled(motion.img)`
   margin-right: 50px;
   width: 120px;
-  height: 120px;
-  fill:  #424242;
+  height: 120px; 
   border-radius: 50%;
   border: 2px solid white;
   path {
@@ -82,10 +80,10 @@ const Search = styled.form`
 
 const Circle = styled(motion.span)`
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 2.5px;
-  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  bottom: -12px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -105,14 +103,6 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.yellow.lighter};
 `;
 
-const navVariants = {
-    top: {
-        backgroundColor: "rgb(66, 66, 66,0)",
-    },
-    scroll: {
-        backgroundColor: "rgb(66, 66, 66,1)",
-    },
-};
 
 interface IForm {
     keyword: string;
@@ -121,11 +111,58 @@ interface IForm {
 function Header() {
     const [searchOpen, setSearchOpen] = useState(false);
     const homeMatch = useRouteMatch("/");
+    const popMatch = useRouteMatch("/popular");
     const cgMatch = useRouteMatch("/comingsoon");
     const npMatch = useRouteMatch("/nowplaying");
+    const srchMatch = useRouteMatch("/search");
     const inputAnimation = useAnimation();
     const navAnimation = useAnimation();
     const { scrollY } = useViewportScroll();
+    let navVariants = null;
+
+    if (npMatch) {
+        navVariants = {
+            top: {
+                backgroundColor: "rgb(22, 50, 61 ,0)",
+            },
+            scroll: {
+                backgroundColor: "rgb(22, 50, 61 ,1)",
+            },
+        };
+
+    } else if (cgMatch) {
+        navVariants = {
+            top: {
+                backgroundColor: "rgb(62, 180, 137,0)",
+            },
+            scroll: {
+                backgroundColor: "rgb(62, 180, 137,1)",
+            },
+        };
+
+    } else if (srchMatch) {
+        navVariants = {
+            top: {
+                backgroundColor: "rgb(0, 0, 0,0)",
+            },
+            scroll: {
+                backgroundColor: "rgb(0, 0, 0,1)",
+            },
+        };
+
+    } else {
+
+        navVariants = {
+            top: {
+                backgroundColor: "rgb(66, 66, 66,0)",
+            },
+            scroll: {
+                backgroundColor: "rgb(66, 66, 66,1)",
+            },
+        };
+    }
+
+
     const toggleSearch = () => {
         if (searchOpen) {
             inputAnimation.start({
@@ -161,7 +198,7 @@ function Header() {
                     <Items>
                         <Item>
                             <Link to="/">
-                                POPULAR {homeMatch?.isExact && <Circle layoutId="circle" />}
+                                POPULAR {homeMatch?.isExact || popMatch ? <Circle layoutId="circle" /> : ''}
                             </Link>
                         </Item>
                         <Item>
@@ -180,7 +217,7 @@ function Header() {
                     <Search onSubmit={handleSubmit(onValid)}>
                         <motion.svg
                             onClick={toggleSearch}
-                            animate={{ x: searchOpen ? -185 : 0 }}
+                            animate={{ x: searchOpen ? -215 : 0 }}
                             transition={{ type: "linear" }}
                             fill="currentColor"
                             viewBox="0 0 20 20"

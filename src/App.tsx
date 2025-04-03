@@ -14,16 +14,16 @@ function App() {
         <Route path="/test">
           <BoxTest />
         </Route>
-        <Route path="/comingsoon">
+        <Route path={["/comingsoon", "/comingsoon/:movieId"]}>
           <Comingsoon />
         </Route>
-        <Route path="/nowplaying">
+        <Route path={["/nowplaying", "/nowplaying/:movieId"]}>
           <Nowplaying />
         </Route>
-        <Route path="/search">
+        <Route path={["/search", "/search/:movieId"]}>
           <Search />
         </Route>
-        <Route path={["/", "/movies/:movieId"]}>
+        <Route path={["/", "/popular/:movieId"]}>
           <Popular />
         </Route>
       </Switch>
