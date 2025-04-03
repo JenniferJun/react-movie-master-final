@@ -4,7 +4,7 @@ import { getSearchMovie, IGetMoviesResult } from "../api";
 import { useQuery } from "react-query";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { movieList } from "./Popular";
-import SearchPop from "../Components/SearchPop";
+import BigPopMovie from "../Components/BigPopMovie";
 
 const Wrapper = styled.div`
   background: #000000;
@@ -38,7 +38,7 @@ function Search() {
             {movieList(isLoading, data, onBoxClicked)}
 
             {bigMovieMatch && clickedMovie ? (
-                <SearchPop clickedMovie={clickedMovie} keyword={keyword}></SearchPop>
+                <BigPopMovie clickedMovie={clickedMovie} keyword={keyword}></BigPopMovie>
             ) : null
             }
         </Wrapper >
