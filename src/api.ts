@@ -75,9 +75,8 @@ export function getMovieInfo(movie_id: string | undefined) {
 }
 //https://api.themoviedb.org/3/movie/{movie_id}
 export function getSearchMovie(query: string | null) {
-  const a = fetch(
-    `${BASE_PATH}/search/movie?api_key=${API_KEY}&query=${query}`,
-    getOptions
-  ).then((response) => response.json());
+  const a = fetch(`${BASE_PATH}/search/movie?query=${query}`, getOptions).then(
+    (response) => response.json()
+  );
   return a;
 }

@@ -65,10 +65,13 @@ const BigDetail = styled.p`
 const BigMoviePop = styled.div``;
 
 const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
+  position: fixed; 
   width: 100wv;
   height: 100hv;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0px;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
 `;
@@ -117,7 +120,7 @@ function BigPopMovie({ clickedMovie, keyword }: BigPopMovieProps) {
             <Overlay
                 onClick={onOverlayClick}
                 exit={{ opacity: 0 }}
-                animate={{ opacity: 1 }} />
+                animate={{ opacity: 1 }} ></Overlay>
             <BigMovie
                 style={{ top: scrollY.get() + 100 }}
                 layoutId={selectedMovieId}
