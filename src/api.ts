@@ -68,12 +68,11 @@ export function getCommingSoon() {
 
 //https://api.themoviedb.org/3/movie/{movie_id}
 export function getMovieInfo(movie_id: string | undefined) {
-  const a = fetch(`${BASE_PATH}/movie/${movie_id}`, getOptions).then(
-    (response) => response.json()
+  return fetch(`${BASE_PATH}/movie/${movie_id}`, getOptions).then((response) =>
+    response.json()
   );
-  return a;
 }
-//https://api.themoviedb.org/3/movie/{movie_id}
+//https://api.themoviedb.org/3/movie?query={query}
 export function getSearchMovie(query: string | null) {
   const a = fetch(`${BASE_PATH}/search/movie?query=${query}`, getOptions).then(
     (response) => response.json()

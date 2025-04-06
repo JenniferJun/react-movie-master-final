@@ -8,7 +8,7 @@ import BigPopMovie from "../Components/BigPopMovie";
 
 
 const Wrapper = styled.div`
-  background: #424242;
+  background: #3EB489;
   padding-top: 180px;
   width:100vw;
   display: flex;

@@ -8,7 +8,7 @@ import { movieList } from "./Popular";
 
 
 const Wrapper = styled.div`
-  background: #3EB489;
+  background: #424242;
   padding-top: 180px;
   width:100vw;
   display: flex;

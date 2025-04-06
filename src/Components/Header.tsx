@@ -120,6 +120,7 @@ function Header() {
     const { scrollY } = useViewportScroll();
     let navVariants = null;
 
+    //nowplaying
     if (npMatch) {
         navVariants = {
             top: {
@@ -129,17 +130,17 @@ function Header() {
                 backgroundColor: "rgb(22, 50, 61 ,1)",
             },
         };
-
+        //comingsoon
     } else if (cgMatch) {
         navVariants = {
             top: {
-                backgroundColor: "rgb(62, 180, 137,0)",
+                backgroundColor: "rgb(66, 66, 66,0)",
             },
             scroll: {
-                backgroundColor: "rgb(62, 180, 137,1)",
+                backgroundColor: "rgb(66, 66, 66,1)",
             },
         };
-
+        //Search
     } else if (srchMatch) {
         navVariants = {
             top: {
@@ -149,15 +150,14 @@ function Header() {
                 backgroundColor: "rgb(0, 0, 0,1)",
             },
         };
-
+        //Popular
     } else {
-
         navVariants = {
             top: {
-                backgroundColor: "rgb(66, 66, 66,0)",
+                backgroundColor: "rgb(62, 180, 137,0)",
             },
             scroll: {
-                backgroundColor: "rgb(66, 66, 66,1)",
+                backgroundColor: "rgb(62, 180, 137,1)",
             },
         };
     }

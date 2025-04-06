@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BASE_PATH, IMovieDetail, IMovie } from "../api";
+import { BASE_PATH, IMovieDetail, IMovie, getOptions } from "../api";
 import { motion, useViewportScroll } from "framer-motion";
 import { makeImagePath } from "../utils";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -106,7 +106,7 @@ function BigPopMovie({ clickedMovie, keyword }: BigPopMovieProps) {
 
     useEffect(() => {
         async function fetchMovieData() {
-            const response = await fetch(`${BASE_PATH}/movie/${selectedMovieId}`);
+            const response = await fetch(`${BASE_PATH}/movie/${selectedMovieId}`, getOptions);
             const movieData = await response.json();
             setInfo(movieData);
         }
